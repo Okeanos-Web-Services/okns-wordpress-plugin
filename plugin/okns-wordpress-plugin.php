@@ -31,8 +31,7 @@ function okns_enqueue_scripts()
 }
 add_action("wp_enqueue_scripts", "okns_enqueue_scripts");
 
-require_once plugin_dir_path(__FILE__) . "includes/class-okns-chat.php";
 require_once plugin_dir_path(__FILE__) . "includes/class-okns-api.php";
-require_once plugin_dir_path(__FILE__) . "includes/shortcodes.php";
-require_once plugin_dir_path(__FILE__) . "includes/okns-settings.php";
+require_once plugin_dir_path(__FILE__) . "includes/class-okns-chat.php";
+
 $okns_chat = new OKNS_Chat();

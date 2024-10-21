@@ -14,22 +14,54 @@ class OKNS_Chat
 
         add_action("wp_ajax_okns_send_message", [$this, "send_message"]);
         add_action("wp_ajax_nopriv_okns_send_message", [$this, "send_message"]);
+
+        add_shortcode("okns_chat", [$this, "render_chat_widget"]);
     }
 
     public function start_chat()
     {
-        $graph_id = $_POST["graph_id"];
+        $graph_id = sanitize_text_field($_POST["graph_id"]);
+        if (empty($graph_id)) {
+            wp_send_json_error([
+                "error" => "Graph ID is missing",
+                "status" => 400,
+            ]);
+            return;
+        }
+
         $response = $this->api->start_graph($graph_id);
-        $this->graph_config_id = $response["graph_config_id"];
-        update_option("okns_graph_config_id", $this->graph_config_id);
-        wp_send_json_success($response);
+        if (isset($response["error"])) {
+            wp_send_json_error($response);
+        } else {
+            $this->graph_config_id = $response["graph_config_id"];
+            update_option("okns_graph_config_id", $this->graph_config_id);
+            wp_send_json_success($response);
+        }
     }
 
     public function send_message()
     {
         $interaction = sanitize_text_field($_POST["message"]);
-        $this->graph_config_id = $_POST["graph_config_id"];
+        $this->graph_config_id = sanitize_text_field($_POST["graph_config_id"]);
         $response = $this->api->interact($this->graph_config_id, $interaction);
-        wp_send_json_success($response);
+        if (isset($response["error"])) {
+            wp_send_json_error($response);
+        } else {
+            wp_send_json_success($response);
+        }
+    }
+
+    public function render_chat_widget($atts)
+    {
+        $atts = shortcode_atts(
+            [
+                "graph_id" => "",
+            ],
+            $atts
+        );
+
+        ob_start();
+        include plugin_dir_path(__FILE__) . "../templates/chat-template.php";
+        return ob_get_clean();
     }
 }
