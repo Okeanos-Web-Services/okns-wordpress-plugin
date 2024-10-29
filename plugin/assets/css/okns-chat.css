@@ -138,9 +138,6 @@ body {
 
 /* Chat Widget */
 .okns-chat-widget {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
     width: 500px;
     height: 700px;
     background-color: var(--background-color);
@@ -153,13 +150,72 @@ body {
     z-index: 1000;
 }
 
+.okns-chat-widget.dynamic-bottom {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.okns-chat-widget.static-middle {
+    position: relative;
+    margin: 20px auto;
+    height: 700px !important; /* Never minimize */
+}
+
+.okns-chat-widget.static-middle .minimize-chat {
+    display: none;
+}
+
+.okns-chat-widget.static-middle .chat-body {
+    display: flex !important;
+}
+
+/* Hide minimize functionality for static-middle */
+.okns-chat-widget.static-middle.minimized {
+    height: 700px;
+}
+
+.okns-chat-widget.dynamic-bottom.minimized {
+    height: 50px;
+}
+
+/* State classes */
+.okns-chat-widget.chat-started .start-chat {
+    display: none !important;
+}
+
+.okns-chat-widget.chat-finished .chat-form {
+    display: none !important;
+}
+
 .okns-chat-widget.minimized {
     height: 50px;
 }
 .okns-chat-widget.minimized .start-chat {
     display: none !important;
 }
+.okns-chat-widget[data-graph-id].dynamic-bottom.minimized .start-chat {
+    display: none !important;
+}
 
+.okns-chat-widget[data-graph-id].static-middle .start-chat {
+    display: block !important;
+    position: static;
+    transform: none;
+    margin: 20px auto;
+}
+
+.okns-chat-widget[data-graph-id].static-middle .chat-body {
+    display: flex !important;
+}
+
+.okns-chat-widget[data-graph-id].static-middle.chat-started .start-chat {
+    display: none !important;
+}
+
+.okns-chat-widget[data-graph-id].static-middle.chat-started .chat-body {
+    display: flex !important;
+}
 /* Chat Header */
 .chat-header {
     background-color: white;
@@ -462,6 +518,19 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+.loading-animation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(250, 250, 250, 0.8);
+    z-index: 10;
+}
 
 .logo-loader {
     width: 150px;
@@ -469,14 +538,21 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 
-.loading-animation {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+.logo-loader svg {
+    width: 100%;
+    height: 100%;
+}
+
+.powered-by {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.powered-by p {
+    margin-bottom: 5px;
 }
 .message-text zero-md {
     font-family: inherit;

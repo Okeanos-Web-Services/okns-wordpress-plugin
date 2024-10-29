@@ -4,6 +4,7 @@ function okns_chat_shortcode($atts)
     $atts = shortcode_atts(
         [
             "graph_id" => "",
+            "dynamic_bottom" => "true", // Add this line
         ],
         $atts
     );

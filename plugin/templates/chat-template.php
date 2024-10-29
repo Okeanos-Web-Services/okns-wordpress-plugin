@@ -1,6 +1,7 @@
-<div class="okns-chat-widget minimized" data-graph-id="<?php echo esc_attr(
-    $atts["graph_id"]
-); ?>">
+<div class="okns-chat-widget <?php echo esc_attr($atts["position"]); ?>"
+     id="<?php echo esc_attr($atts["widget_id"]); ?>"
+     data-graph-id="<?php echo esc_attr($atts["graph_id"]); ?>"
+     data-position="<?php echo esc_attr($atts["position"]); ?>">
     <script type="module">
         import 'https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js';
     </script>
@@ -30,10 +31,12 @@
         </div>
         <div class="loading-animation" style="display: none;">
             <div class="logo-loader">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"width="150" height="150">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="150" height="150">
                     <defs>
                         <linearGradient
-                            id="lineGradient"
+                            id="lineGradient-<?php echo esc_attr(
+                                $atts["widget_id"]
+                            ); ?>"
                             x1="14.25"
                             y1="37"
                             x2="59.75"
@@ -43,11 +46,15 @@
                             <stop offset="0" stop-color="#00d2e5" />
                             <stop offset="1" stop-color="#056dff" />
                         </linearGradient>
-                        <clipPath id="centerClip">
+                        <clipPath id="centerClip-<?php echo esc_attr(
+                            $atts["widget_id"]
+                        ); ?>">
                             <rect x="0" y="20" width="100" height="60" />
                         </clipPath>
 
-                        <mask id="lineMask">
+                        <mask id="lineMask-<?php echo esc_attr(
+                            $atts["widget_id"]
+                        ); ?>">
                             <rect width="100" height="100" fill="black" />
                             <g
                                 fill="none"
@@ -95,13 +102,19 @@
                         </mask>
 
                         <style>
-                            .path {
-                                stroke-dasharray: 100;
-                                stroke-dashoffset: 100;
-                                animation: drawLine 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-                            }
+                                            #<?php echo esc_attr(
+                                                $atts["widget_id"]
+                                            ); ?> .path {
+                                                stroke-dasharray: 100;
+                                                stroke-dashoffset: 100;
+                                                animation: drawLine-<?php echo esc_attr(
+                                                    $atts["widget_id"]
+                                                ); ?> 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                                            }
 
-                            @keyframes drawLine {
+                             @keyframes drawLine-<?php echo esc_attr(
+                                 $atts["widget_id"]
+                             ); ?> {
                                 0%,
                                 5% {
                                     stroke-dashoffset: 100;
@@ -125,53 +138,70 @@
                             }
 
                             /* Staggered delays with smooth overlap */
-                            .path:nth-child(1) {
-                                animation-delay: 0s;
-                            }
+                            #<?php echo esc_attr(
+                                $atts["widget_id"]
+                            ); ?> .path:nth-child(1) { animation-delay: 0s; }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(2) {
                                 animation-delay: 0.3s;
                             }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(3) {
                                 animation-delay: 0.6s;
                             }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(4) {
                                 animation-delay: 0.9s;
                             }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(5) {
                                 animation-delay: 1.2s;
                             }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(6) {
                                 animation-delay: 1.5s;
                             }
 
                             /* Slightly different timing functions for each path */
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(1) {
                                 animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
                             }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(2) {
                                 animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
                             }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(3) {
                                 animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
                             }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(4) {
                                 animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
                             }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(5) {
                                 animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
                             }
+                            #<?php echo esc_attr($atts["widget_id"]); ?>
                             .path:nth-child(6) {
                                 animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
                             }
                         </style>
                     </defs>
                     <!-- Gradient rectangle masked by the lines -->
-                    <g clip-path="url(#centerClip)">
+                    <g clip-path="url(#centerClip-<?php echo esc_attr(
+                        $atts["widget_id"]
+                    ); ?>)">
                         <rect
                             width="100"
                             height="100"
-                            fill="url(#lineGradient)"
-                            mask="url(#lineMask)"
+                            fill="url(#lineGradient-<?php echo esc_attr(
+                                $atts["widget_id"]
+                            ); ?>)"
+                            mask="url(#lineMask-<?php echo esc_attr(
+                                $atts["widget_id"]
+                            ); ?>)"
                         />
                     </g>
                 </svg>
@@ -179,7 +209,7 @@
             </div>
 
             <div>
-            <p>powered by </p> <a href="https://www.okns.de/" target="_blank">Okeanos</a>
+            <p>powered by </p> <a href="https://www.okns.de/" target="_blank">Okeanos | okns.de</a>
             </div>
         </div>
     </div>

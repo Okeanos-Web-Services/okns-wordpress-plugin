@@ -56,9 +56,14 @@ class OKNS_Chat
         $atts = shortcode_atts(
             [
                 "graph_id" => "",
+                "position" => "dynamic-bottom", // default to dynamic-bottom, can be 'static-middle'
             ],
             $atts
         );
+
+        // Generate a unique ID for this instance
+        $widget_id = "okns-chat-" . uniqid();
+        $atts["widget_id"] = $widget_id;
 
         ob_start();
         include plugin_dir_path(__FILE__) . "../templates/chat-template.php";
