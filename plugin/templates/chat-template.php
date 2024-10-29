@@ -1,8 +1,14 @@
-<div class="okns-chat-widget" data-graph-id="<?php echo esc_attr(
+<div class="okns-chat-widget minimized" data-graph-id="<?php echo esc_attr(
     $atts["graph_id"]
 ); ?>">
+    <script type="module">
+        import 'https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js';
+    </script>
     <div class="chat-header">
-        <h3>Chat with Okeanos</h3>
+        <h3>Chatte mit unserem Assistenten</h3>
+        <div>
+
+        </div>
         <button class="minimize-chat">_</button>
     </div>
     <div class="shape-container">
@@ -24,38 +30,10 @@
         </div>
         <div class="loading-animation" style="display: none;">
             <div class="logo-loader">
-                <svg
-                    id="Ebene_1"
-                    data-name="Ebene 1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 74 74"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"width="150" height="150">
                     <defs>
-                        <style>
-                            .cls-2 {
-                                fill: none;
-                                stroke: url(#Unbenannter_Verlauf_5);
-                                stroke-width: 1px;
-                                stroke-dasharray: 350;
-                                stroke-dashoffset: 350;
-                                animation: drawHexagon 3s infinite;
-                            }
-                            @keyframes drawHexagon {
-                                0% {
-                                    stroke-dashoffset: 100;
-                                }
-                                50% {
-                                    stroke-dashoffset: 0;
-                                }
-                                100% {
-                                    stroke-dashoffset: -100;
-                                }
-                            }
-                        </style>
                         <linearGradient
-                            id="Unbenannter_Verlauf_5"
-                            data-name="Unbenannter Verlauf 5"
+                            id="lineGradient"
                             x1="14.25"
                             y1="37"
                             x2="59.75"
@@ -65,17 +43,144 @@
                             <stop offset="0" stop-color="#00d2e5" />
                             <stop offset="1" stop-color="#056dff" />
                         </linearGradient>
+                        <clipPath id="centerClip">
+                            <rect x="0" y="20" width="100" height="60" />
+                        </clipPath>
+
+                        <mask id="lineMask">
+                            <rect width="100" height="100" fill="black" />
+                            <g
+                                fill="none"
+                                stroke="white"
+                                stroke-width="4"
+                                class="animated-lines"
+                            >
+                                <g transform="translate(48.5, 56.5) translate(-22.5, -33.5)">
+                                    <path
+                                        class="path"
+                                        d="M23 10 C23,10 35,22 35,22 C35,22 35,32 35,32 C35,32 10,57 10,57"
+                                    />
+                                </g>
+                                <g transform="translate(58.25, 54.5) translate(-21.75, -38)">
+                                    <path
+                                        class="path"
+                                        d="M19 10 C19,10 33.5,24.5 33.5,24.5 C33.5,24.5 33.5,42.5 33.5,42.5 C33.5,42.5 10,66 10,66"
+                                    />
+                                </g>
+                                <g transform="translate(68, 52.5) translate(-21, -42.5)">
+                                    <path
+                                        class="path"
+                                        d="M15 10 C15,10 32,27 32,27 C32,27 32,53 32,53 C32,53 10,75 10,75"
+                                    />
+                                </g>
+                                <g transform="translate(51.5, 43.5) translate(-22.5, -33.5)">
+                                    <path
+                                        class="path"
+                                        d="M22 57 C22,57 10,45 10,45 C10,45 10,35 10,35 C10,35 35,10 35,10"
+                                    />
+                                </g>
+                                <g transform="translate(41.75, 45.5) translate(-21.75, -38)">
+                                    <path
+                                        class="path"
+                                        d="M24.5 66 C24.5,66 10,51.5 10,51.5 C10,51.5 10,33.5 10,33.5 C10,33.5 33.5,10 33.5,10"
+                                    />
+                                </g>
+                                <g transform="translate(32, 47.5) translate(-21, -42.5)">
+                                    <path
+                                        class="path"
+                                        d="M27 75 C27,75 10,58 10,58 C10,58 10,32 10,32 C10,32 32,10 32,10"
+                                    />
+                                </g>
+                            </g>
+                        </mask>
+
+                        <style>
+                            .path {
+                                stroke-dasharray: 100;
+                                stroke-dashoffset: 100;
+                                animation: drawLine 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                            }
+
+                            @keyframes drawLine {
+                                0%,
+                                5% {
+                                    stroke-dashoffset: 100;
+                                }
+                                30%,
+                                33% {
+                                    stroke-dashoffset: 0;
+                                }
+                                48%,
+                                52% {
+                                    stroke-dashoffset: -100;
+                                }
+                                67%,
+                                70% {
+                                    stroke-dashoffset: 0;
+                                }
+                                95%,
+                                100% {
+                                    stroke-dashoffset: 100;
+                                }
+                            }
+
+                            /* Staggered delays with smooth overlap */
+                            .path:nth-child(1) {
+                                animation-delay: 0s;
+                            }
+                            .path:nth-child(2) {
+                                animation-delay: 0.3s;
+                            }
+                            .path:nth-child(3) {
+                                animation-delay: 0.6s;
+                            }
+                            .path:nth-child(4) {
+                                animation-delay: 0.9s;
+                            }
+                            .path:nth-child(5) {
+                                animation-delay: 1.2s;
+                            }
+                            .path:nth-child(6) {
+                                animation-delay: 1.5s;
+                            }
+
+                            /* Slightly different timing functions for each path */
+                            .path:nth-child(1) {
+                                animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                            }
+                            .path:nth-child(2) {
+                                animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+                            }
+                            .path:nth-child(3) {
+                                animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+                            }
+                            .path:nth-child(4) {
+                                animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+                            }
+                            .path:nth-child(5) {
+                                animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                            }
+                            .path:nth-child(6) {
+                                animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+                            }
+                        </style>
                     </defs>
-                    <rect class="cls-1" x="0" width="74" height="74" />
-                    <path
-                        class="cls-2"
-                        d="M59.75,27.13l-12.88-12.88h-.96l-18.52,18.52v8.47l7.79,7.79.18.18-.18.18-2.7,2.7-.18.18-.18-.18-8.92-8.92-.07-.07v-12.18l.07-.07,16.58-16.58h-3.28l-15.7,15.7v14.1l9.67,9.67.18.18-.18.18-2.7,2.7-.18.18-.18-.18-10.8-10.8-.07-.07v-17.82l.07-.07,13.77-13.77h-3.28l-12.88,12.88v19.73l12.88,12.88h.96l18.52-18.52v-8.47l-7.79-7.79-.18-.18.18-.18,2.7-2.7.18-.18.18.18,8.92,8.92.07.07v12.18l-.07.07-16.58,16.58h3.28l15.7-15.7v-14.1l-9.67-9.67-.18-.18.18-.18,2.7-2.7.18-.18.18.18,10.8,10.8.07.07v17.82l-.07.07-13.77,13.77h3.28l12.88-12.88v-19.73ZM44.22,33.65l.07.07v6.55l-.07.07-7.04,7.04-.18.18-.18-.18-7.04-7.04-.07-.07v-6.55l.07-.07,7.04-7.04.18-.18.18.18,7.04,7.04Z"
-                    />
+                    <!-- Gradient rectangle masked by the lines -->
+                    <g clip-path="url(#centerClip)">
+                        <rect
+                            width="100"
+                            height="100"
+                            fill="url(#lineGradient)"
+                            mask="url(#lineMask)"
+                        />
+                    </g>
                 </svg>
+
             </div>
 
-
-            <p>Thinking...</p>
+            <div>
+            <p>powered by </p> <a href="https://www.okns.de/" target="_blank">Okeanos</a>
+            </div>
         </div>
     </div>
     <button class="start-chat hexagon-button" style="display: none;">

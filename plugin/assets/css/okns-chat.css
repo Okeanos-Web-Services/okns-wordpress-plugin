@@ -156,23 +156,59 @@ body {
 .okns-chat-widget.minimized {
     height: 50px;
 }
+.okns-chat-widget.minimized .start-chat {
+    display: none !important;
+}
 
 /* Chat Header */
 .chat-header {
     background-color: white;
-    color: var(--text-color);
-    padding: 10px;
+    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid rgba(0, 210, 229, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.chat-header h3 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--primary-color);
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    letter-spacing: 0.5px;
 }
 
 .minimize-chat {
     background: none;
     border: none;
     color: var(--text-color);
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.minimize-chat:hover {
+    background-color: rgba(5, 109, 255, 0.1);
+    color: var(--primary-color);
+}
+
+/* Optional: Add a logo or icon */
+.chat-header .logo {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
 }
 
 /* Shape Container */
@@ -325,39 +361,43 @@ body {
     color: var(--text-color);
 }
 
-/* Buttons */
-.hexagon-button {
-    background-color: var(--primary-color);
-    color: var(--background-color);
-    border: none;
-    cursor: pointer;
-    position: relative;
-    padding: 10px 20px;
-    clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
-    transition: background-color 0.3s ease;
-}
-
-.hexagon-button:hover {
-    background-color: var(--secondary-color);
-}
-
-.hexagon-button span {
-    position: relative;
-    z-index: 1;
-}
-
 .submit-button {
     margin-left: 10px;
-    font-size: 16px;
-    padding: 5px 15px;
+    min-width: 100px;
+    padding: 0.8em 1.5em;
 }
 
+.submit-button,
+.start-chat {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 1em 2em;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1em;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    text-align: center;
+}
+
+.submit-button:hover,
+.start-chat:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Specific adjustments for start-chat button */
 .start-chat {
     position: absolute;
-    bottom: 10px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1em;
+    min-width: 200px;
 }
 
 /* Loading Animation */
@@ -397,28 +437,37 @@ body {
 .possibilities {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5em;
-    margin-top: 1em;
+    gap: 1em;
+    margin: 2em auto;
+    justify-content: center;
+    padding: 0 20px;
 }
 
 .possibilities button {
     background-color: var(--secondary-color);
     color: var(--text-color);
     border: none;
-    padding: 0.5em 1em;
-    border-radius: 20px;
+    padding: 1em 2em;
+    border-radius: 25px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 0.9em;
+    transition: all 0.3s ease;
+    font-size: 1em;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    text-align: center;
 }
 
 .possibilities button:hover {
     background-color: var(--primary-color);
     color: var(--background-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .logo-loader {
-    width: 74px;
-    height: 74px;
+    width: 150px;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -429,10 +478,48 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgba(255, 255, 255, 0.8);
     z-index: 1000;
 }
-.loading-animation svg {
-    width: 20%;
-    height: 20%;
+.message-text zero-md {
+    font-family: inherit;
+    --md-code-font: "Roboto Mono", monospace;
+}
+
+.message-text zero-md::part(markdown-body) {
+    color: inherit;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.message-text zero-md pre {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    overflow-x: auto;
+}
+
+.user .message-text zero-md::part(markdown-body) {
+    color: var(--background-color);
+}
+
+.assistant .message-text zero-md::part(markdown-body) {
+    color: var(--text-color);
+}
+.markdown-indicator {
+    display: inline-block;
+    color: #ff4444;
+    font-size: 0.7em;
+    margin-left: 5px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background-color: rgba(255, 68, 68, 0.1);
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    font-weight: bold;
+}
+
+/* Add a subtle red border to markdown messages */
+.message-content.has-markdown {
+    border: 1px solid rgba(255, 68, 68, 0.3);
 }

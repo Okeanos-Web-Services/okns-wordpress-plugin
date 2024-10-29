@@ -1,4 +1,13 @@
 jQuery(document).ready(function ($) {
+  function waitForZeroMd() {
+    return new Promise((resolve) => {
+      if (customElements.get("zero-md")) {
+        resolve();
+      } else {
+        customElements.whenDefined("zero-md").then(() => resolve());
+      }
+    });
+  }
   const chatWidget = $(".okns-chat-widget");
   const chatList = $(".chatlist");
   const chatForm = $("#chatform");
@@ -7,8 +16,10 @@ jQuery(document).ready(function ($) {
   const loadingAnimation = $(".loading-animation");
   const startChatButton = $(".start-chat");
   const minimizeButton = $(".minimize-chat");
+  const chatHeader = $(".chat-header");
   let graphConfigId = "";
-
+  chatWidget.addClass("minimized"); // Start minimized
+  updateMinimizeButtonText();
   function showLoading() {
     $(".loading-animation").show();
     chatInput.prop("disabled", true);
@@ -20,7 +31,22 @@ jQuery(document).ready(function ($) {
     chatInput.prop("disabled", false);
     submitButton.prop("disabled", false);
   }
+  function containsMarkdown(content) {
+    // Basic check for common markdown syntax
+    const markdownPatterns = [
+      /^#\s/m, // Headers
+      /\*\*(.*?)\*\*/, // Bold
+      /\*(.*?)\*/, // Italic
+      /\[.*?\]\(.*?\)/, // Links
+      /```[\s\S]*?```/, // Code blocks
+      /`.*?`/, // Inline code
+      /^\s*[-*+]\s/m, // Lists
+      /^\s*\d+\.\s/m, // Numbered lists
+      /\|.*\|.*\|/, // Tables
+    ];
 
+    return markdownPatterns.some((pattern) => pattern.test(content));
+  }
   function createMessageElement(message) {
     const messageContainer = $("<li>").addClass(
       "message-container " + message.role,
@@ -28,14 +54,42 @@ jQuery(document).ready(function ($) {
     const messageContent = $("<div>").addClass("message-content");
     const messageBadge = $("<div>")
       .addClass("message-badge")
-      .text(message.role === "user" ? "You" : "Graph");
-    const messageText = $("<div>")
-      .addClass("message-text")
-      .text(message.content);
+      .text(message.role === "user" ? "You" : "Assistent");
 
-    messageContent.append(messageBadge, messageText);
+    const hasMarkdown = containsMarkdown(message.content);
+
+    if (hasMarkdown) {
+      messageContent.addClass("has-markdown");
+      const markdownIndicator = $("<span>")
+        .addClass("markdown-indicator")
+        .text("MD");
+      messageBadge.append(markdownIndicator);
+    }
+
+    if (hasMarkdown) {
+      // Create zero-md element after ensuring it's defined
+      waitForZeroMd().then(() => {
+        const zeroMd = document.createElement("zero-md");
+        const script = document.createElement("script");
+        script.type = "text/markdown";
+        script.textContent = message.content;
+        zeroMd.appendChild(script);
+
+        const messageText = $("<div>").addClass("message-text");
+        messageText.append(zeroMd);
+        messageContent.append(messageBadge, messageText);
+
+        // Trigger a re-render if needed
+        chatList.scrollTop(chatList.prop("scrollHeight"));
+      });
+    } else {
+      const messageText = $("<div>")
+        .addClass("message-text")
+        .text(message.content);
+      messageContent.append(messageBadge, messageText);
+    }
+
     messageContainer.append(messageContent);
-
     return messageContainer;
   }
 
@@ -158,12 +212,41 @@ jQuery(document).ready(function ($) {
   });
 
   startChatButton.on("click", startChat);
-
-  minimizeButton.on("click", function () {
-    chatWidget.toggleClass("minimized");
+  function updateMinimizeButtonText() {
+    if (chatWidget.hasClass("minimized")) {
+      minimizeButton.html("▲"); // Up arrow when minimized
+    } else {
+      minimizeButton.html("▼"); // Down arrow when expanded
+    }
+  }
+  minimizeButton.on("click", function (e) {
+    e.stopPropagation(); // Prevent event from bubbling to header
+    toggleChatState();
+  });
+  chatHeader.on("click", function () {
+    toggleChatState();
   });
 
+  function toggleChatState() {
+    chatWidget.toggleClass("minimized");
+    updateMinimizeButtonText();
+
+    // Handle start button visibility
+    if (chatWidget.hasClass("minimized")) {
+      startChatButton.hide();
+    } else if (!graphConfigId) {
+      // Only show start chat button if chat hasn't been started yet
+      startChatButton.show();
+    }
+  }
+  function initialize() {
+    startChatButton.show();
+    chatForm.hide();
+    chatWidget.addClass("minimized"); // Ensure it starts minimized
+    updateMinimizeButtonText(); // Set initial button text
+  }
   // Initialize the chat widget
   startChatButton.show();
   chatForm.hide();
+  initialize();
 });

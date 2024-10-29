@@ -25,6 +25,15 @@ function okns_enqueue_scripts()
         "0.1",
         true
     );
+    wp_register_script(
+        "zero-md",
+        "https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js",
+        [],
+        "2.0",
+        true
+    );
+    wp_script_add_data("zero-md", "type", "module");
+
     wp_localize_script("okns-chat-script", "okns_ajax", [
         "ajax_url" => admin_url("admin-ajax.php"),
     ]);
