@@ -175,6 +175,16 @@ jQuery(document).ready(function ($) {
       return;
     }
 
+    if (
+      response.type == "GraphDecisionRequired" &&
+      response.question &&
+      response.chat_history
+    ) {
+      response.chat_history.push({
+        role: "assistant",
+        content: response.question,
+      });
+    }
     if (response.chat_history) {
       displayMessages(response.chat_history);
     }
@@ -185,6 +195,10 @@ jQuery(document).ready(function ($) {
         break;
       case "GraphTokenPermissionRequired":
         // Handle token permission separately if needed
+        break;
+      case "GraphFinished":
+        // Hide the chat form when the graph is finished
+        chatForm.hide();
         break;
     }
   }

@@ -141,8 +141,8 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 600px;
-    height: 800px;
+    width: 500px;
+    height: 700px;
     background-color: var(--background-color);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(5, 109, 255, 0.1);
@@ -387,8 +387,6 @@ body {
 .start-chat:hover {
     background-color: var(--primary-color);
     color: var(--background-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Specific adjustments for start-chat button */
